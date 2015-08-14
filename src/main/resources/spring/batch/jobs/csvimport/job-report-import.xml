@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+ 
+  <bean id="report" class="com.mkyong.model.Report" scope="prototype" />
+ 
+  <batch:job id="reportImportJob">
+	<batch:step id="step1">
+	  <batch:tasklet>
+		<batch:chunk reader="mysqlReportReader" writer="cvsReportWriter"
+			commit-interval="2">
+		</batch:chunk>
+	  </batch:tasklet>
+	</batch:step>
+  </batch:job>
+  
+  <!-- ItemWriter writes a line into output flat file -->
+  <bean id="cvsReportWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+ 
+	<!-- Read a csv file -->
+	<property name="resource" value="classpath:csv/reportImportResult.csv" />
+ 
+        <property name="lineAggregator">
+
+			<!-- An Aggregator which converts an object into delimited list of strings -->
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+
+				<property name="delimiter" value="|" />
+
+                <property name="fieldExtractor">
+                    <bean
+                        class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                        <property name="names" value="date, impressions, clicks, earning" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+ 
+  </bean>
+  
+  <bean id="mysqlReportReader"
+          class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource" />
+      		<property name="sql"
+			value="SELECT DATE, IMPRESSIONS, CLICKS, EARNING FROM RAW_REPORT" />
+      <!-- It will take care matching between object property and sql name parameter -->
+      <property name="rowMapper">
+          <bean
+              class="com.mkyong.model.ReportRowMapper" />
+      </property>
+  </bean>
+ 
+</beans>
