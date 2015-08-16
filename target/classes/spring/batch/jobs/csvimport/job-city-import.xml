@@ -12,17 +12,21 @@
   <batch:job id="cityImportJob">
 	<batch:step id="step1">
 	  <batch:tasklet>
-		<batch:chunk reader="mysqlCityReader" writer="cvsCityWriter"
+		<batch:chunk reader="mysqlCityReader" writer="cvsCityWriter" processor="itemProcessor"
 			commit-interval="2">
 		</batch:chunk>
 	  </batch:tasklet>
 	</batch:step>
   </batch:job>
   
-  <bean id="cvsCityWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+  <!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
+  <bean id="itemProcessor" class="com.mkyong.model.CityItemProcessor" />
+        
+  <bean id="cvsCityWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step"> 
  
-	<!-- Read a csv file -->
-	<property name="resource" value="classpath:csv/cityImportResult.csv" />
+      <!-- Read a csv file -->
+      <!--<property name="resource" value="classpath:csv/test.txt" />-->
+            <property name="resource" value="file:src/main/resources/csv/cityResult.csv" />
  
         <property name="lineAggregator">
 
@@ -46,14 +50,12 @@
   </bean>
   
   <bean id="mysqlCityReader"
-          class="org.springframework.batch.item.database.JdbcCursorItemReader">
+        class="org.springframework.batch.item.database.JdbcCursorItemReader">
       <property name="dataSource" ref="dataSource" />
-      		<property name="sql"
-			value="SELECT ID, CODE, NAME FROM CITY" />
+      <property name="sql" value="SELECT ID, CODE, NAME FROM CITY" />
       <!-- It will take care matching between object property and sql name parameter -->
       <property name="rowMapper">
-          <bean
-              class="com.mkyong.model.CityRowMapper" />
+          <bean class="com.mkyong.model.CityRowMapper" />
       </property>
   </bean>
  

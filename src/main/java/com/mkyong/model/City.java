@@ -38,4 +38,9 @@ public class City {
     public void setName(String Name) {
         this.Name = Name;
     }
+
+    @Override
+    public String toString() {
+        return "City [Id=" + Id + ", code=" + Code + ", name=" + Name + "]";
+    }
 }
