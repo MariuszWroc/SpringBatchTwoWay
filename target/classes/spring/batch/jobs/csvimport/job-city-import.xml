@@ -34,7 +34,7 @@
 			<bean
 				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
 
-				<property name="delimiter" value="|" />
+				<property name="delimiter" value="," />
 
                 <property name="fieldExtractor">
 

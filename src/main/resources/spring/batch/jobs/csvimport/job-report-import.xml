@@ -23,7 +23,7 @@
   <bean id="cvsReportWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
  
 	<!-- Read a csv file -->
-	<property name="resource" value="classpath:csv/reportImportResult.csv" />
+	<property name="resource" value="file:src/main/resources/csv/reportImportResult.csv" />
  
         <property name="lineAggregator">
 
@@ -31,7 +31,7 @@
 			<bean
 				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
 
-				<property name="delimiter" value="|" />
+				<property name="delimiter" value="," />
 
                 <property name="fieldExtractor">
                     <bean
