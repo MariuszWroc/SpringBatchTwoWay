@@ -48,5 +48,8 @@ public class Report {
         this.Earning = Earning;
     }
  
-
+    @Override
+    public String toString() {
+        return "Report [Date=" + Date + ", Impressions=" + Impressions + ", Clicks=" + Clicks + ", Earning=" + Earning +"]";
+    }
 }
