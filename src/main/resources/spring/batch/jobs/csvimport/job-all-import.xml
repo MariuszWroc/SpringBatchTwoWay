@@ -72,7 +72,7 @@
   <bean id="cvsReportWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
  
 	<!-- Read a csv file -->
-	<property name="resource" value="file:src/main/resources/csv/reportImportResult.csv" />
+	<property name="resource" value="file:src/main/resources/csv/reportResult.csv" />
  
         <property name="lineAggregator">
 
