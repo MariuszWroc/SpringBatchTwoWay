@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.mkyong.model;
+package com.mkyong.model.trash;
 
+import com.mkyong.model.City;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author mczarny
  */
+@Deprecated
 public class CityRowMapper implements RowMapper<City>{
 
 	@Override

@@ -42,7 +42,8 @@
                 <property name="lineTokenizer">
                     <bean
                         class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-                        <property name="names" value="id,code,name" />
+                         <property name="delimiter" value="|"/>
+                        <property name="names" value="id, code, name" />
                     </bean>
                 </property>
                 <property name="fieldSetMapper">   
@@ -60,18 +61,11 @@
   <bean id="mysqlCityWriter"
           class="org.springframework.batch.item.database.JdbcBatchItemWriter">
       <property name="dataSource" ref="dataSource" />
-      <property name="sql">
-          <value>
-            <![CDATA[        
-            	insert into CITY(ID,CODE,NAME) 
-			values (:id, :code, :name)
-            ]]>
-          </value>
+      <property name="sql" value="INSERT INTO CITY VALUES(:id, :code, :name)">
       </property>
       <!-- It will take care matching between object property and sql name parameter -->
       <property name="itemSqlParameterSourceProvider">
-          <bean
-              class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+          <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
       </property>
   </bean>
   
@@ -86,7 +80,8 @@
               <property name="lineTokenizer">
                   <bean
                       class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-                      <property name="names" value="date,impressions,clicks,earning" />
+                      <property name="delimiter" value="|"/>
+                      <property name="names" value="date, impressions, clicks, earning" />
                   </bean>
               </property>
               <property name="fieldSetMapper">   
@@ -102,21 +97,14 @@
   </bean>
  
   <bean id="mysqlReportWriter"
-	class="org.springframework.batch.item.database.JdbcBatchItemWriter">
-	<property name="dataSource" ref="dataSource" />
-	<property name="sql">
-	  <value>
-            <![CDATA[        
-            	insert into RAW_REPORT(DATE,IMPRESSIONS,CLICKS,EARNING) 
-			values (:date, :impressions, :clicks, :earning)
-            ]]>
-	  </value>
-	</property>
-	<!-- It will take care matching between object property and sql name parameter -->
-	<property name="itemSqlParameterSourceProvider">
-		<bean
-		class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
-	</property>
+        class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+      <property name="dataSource" ref="dataSource" />
+      <property name="sql" value="INSERT INTO RAW_REPORT VALUES(:date, :impressions, :clicks, :earning)">
+      </property>
+      <!-- It will take care matching between object property and sql name parameter -->
+      <property name="itemSqlParameterSourceProvider">
+          <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+      </property>
   </bean>
  
 </beans>

@@ -50,6 +50,6 @@ public class Report {
  
     @Override
     public String toString() {
-        return "Report [Date=" + Date + ", Impressions=" + Impressions + ", Clicks=" + Clicks + ", Earning=" + Earning +"]";
+        return Date + "|" + Impressions + "|" + Clicks + "|" + Earning;
     }
 }
